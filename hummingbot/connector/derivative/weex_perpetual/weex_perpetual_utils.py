@@ -15,48 +15,48 @@ CENTRALIZED = True
 
 EXAMPLE_PAIR = "BTC-USDT"
 
-BROKER_ID = "x-3QreWesy"
+BROKER_ID = "weex"
 
 
-class BinancePerpetualConfigMap(BaseConnectorConfigMap):
-    connector: str = "binance_perpetual"
-    binance_perpetual_api_key: SecretStr = Field(
+class WeexPerpetualConfigMap(BaseConnectorConfigMap):
+    connector: str = "weex_perpetual"
+    weex_perpetual_api_key: SecretStr = Field(
         default=...,
         json_schema_extra={
-            "prompt": "Enter your Binance Perpetual API key",
+            "prompt": "Enter your Weex Perpetual API key",
             "is_secure": True, "is_connect_key": True, "prompt_on_new": True}
     )
-    binance_perpetual_api_secret: SecretStr = Field(
+    weex_perpetual_api_secret: SecretStr = Field(
         default=...,
         json_schema_extra={
-            "prompt": "Enter your Binance Perpetual API secret",
+            "prompt": "Enter your Weex Perpetual API secret",
             "is_secure": True, "is_connect_key": True, "prompt_on_new": True}
     )
 
 
-KEYS = BinancePerpetualConfigMap.model_construct()
+KEYS = WeexPerpetualConfigMap.model_construct()
 
-OTHER_DOMAINS = ["binance_perpetual_testnet"]
-OTHER_DOMAINS_PARAMETER = {"binance_perpetual_testnet": "binance_perpetual_testnet"}
-OTHER_DOMAINS_EXAMPLE_PAIR = {"binance_perpetual_testnet": "BTC-USDT"}
-OTHER_DOMAINS_DEFAULT_FEES = {"binance_perpetual_testnet": [0.02, 0.04]}
+OTHER_DOMAINS = ["weex_perpetual_testnet"]
+OTHER_DOMAINS_PARAMETER = {"weex_perpetual_testnet": "weex_perpetual_testnet"}
+OTHER_DOMAINS_EXAMPLE_PAIR = {"weex_perpetual_testnet": "BTC-USDT"}
+OTHER_DOMAINS_DEFAULT_FEES = {"weex_perpetual_testnet": [0.02, 0.04]}
 
 
-class BinancePerpetualTestnetConfigMap(BaseConnectorConfigMap):
-    connector: str = "binance_perpetual_testnet"
-    binance_perpetual_testnet_api_key: SecretStr = Field(
+class WeexPerpetualTestnetConfigMap(BaseConnectorConfigMap):
+    connector: str = "weex_perpetual_testnet"
+    weex_perpetual_testnet_api_key: SecretStr = Field(
         default=...,
         json_schema_extra={
-            "prompt": "Enter your Binance Perpetual testnet API key",
+            "prompt": "Enter your Weex Perpetual testnet API key",
             "is_secure": True, "is_connect_key": True, "prompt_on_new": True}
     )
-    binance_perpetual_testnet_api_secret: SecretStr = Field(
+    weex_perpetual_testnet_api_secret: SecretStr = Field(
         default=...,
         json_schema_extra={
-            "prompt": "Enter your Binance Perpetual testnet API secret",
+            "prompt": "Enter your Weex Perpetual testnet API secret",
             "is_secure": True, "is_connect_key": True, "prompt_on_new": True}
     )
-    model_config = ConfigDict(title="binance_perpetual")
+    model_config = ConfigDict(title="weex_perpetual")
 
 
-OTHER_DOMAINS_KEYS = {"binance_perpetual_testnet": BinancePerpetualTestnetConfigMap.model_construct()}
+OTHER_DOMAINS_KEYS = {"weex_perpetual_testnet": WeexPerpetualTestnetConfigMap.model_construct()}

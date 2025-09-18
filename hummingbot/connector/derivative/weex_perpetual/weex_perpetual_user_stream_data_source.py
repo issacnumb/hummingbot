@@ -2,9 +2,9 @@ import asyncio
 import time
 from typing import TYPE_CHECKING, Optional
 
-import hummingbot.connector.derivative.binance_perpetual.binance_perpetual_constants as CONSTANTS
-import hummingbot.connector.derivative.binance_perpetual.binance_perpetual_web_utils as web_utils
-from hummingbot.connector.derivative.binance_perpetual.binance_perpetual_auth import BinancePerpetualAuth
+import hummingbot.connector.derivative.weex_perpetual.weex_perpetual_constants as CONSTANTS
+import hummingbot.connector.derivative.weex_perpetual.weex_perpetual_web_utils as web_utils
+from hummingbot.connector.derivative.weex_perpetual.weex_perpetual_auth import WeexPerpetualAuth
 from hummingbot.core.data_type.user_stream_tracker_data_source import UserStreamTrackerDataSource
 from hummingbot.core.utils.async_utils import safe_ensure_future
 from hummingbot.core.web_assistant.connections.data_types import RESTMethod
@@ -13,8 +13,8 @@ from hummingbot.core.web_assistant.ws_assistant import WSAssistant
 from hummingbot.logger import HummingbotLogger
 
 if TYPE_CHECKING:
-    from hummingbot.connector.derivative.binance_perpetual.binance_perpetual_derivative import (
-        BinancePerpetualDerivative,
+    from hummingbot.connector.derivative.weex_perpetual.weex_perpetual_derivative import (
+        WeexPerpetualDerivative,
     )
 
 
@@ -27,8 +27,8 @@ class BinancePerpetualUserStreamDataSource(UserStreamTrackerDataSource):
 
     def __init__(
             self,
-            auth: BinancePerpetualAuth,
-            connector: 'BinancePerpetualDerivative',
+            auth: WeexPerpetualAuth,
+            connector: 'WeexPerpetualDerivative',
             api_factory: WebAssistantsFactory,
             domain: str = CONSTANTS.DOMAIN,
     ):

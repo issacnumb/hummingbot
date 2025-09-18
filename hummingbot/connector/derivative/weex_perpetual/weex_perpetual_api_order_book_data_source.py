@@ -4,8 +4,8 @@ from collections import defaultdict
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Dict, List, Mapping, Optional
 
-import hummingbot.connector.derivative.binance_perpetual.binance_perpetual_constants as CONSTANTS
-import hummingbot.connector.derivative.binance_perpetual.binance_perpetual_web_utils as web_utils
+import hummingbot.connector.derivative.weex_perpetual.weex_perpetual_constants as CONSTANTS
+import hummingbot.connector.derivative.weex_perpetual.weex_perpetual_web_utils as web_utils
 from hummingbot.core.data_type.common import TradeType
 from hummingbot.core.data_type.funding_info import FundingInfo, FundingInfoUpdate
 from hummingbot.core.data_type.order_book_message import OrderBookMessage, OrderBookMessageType
@@ -16,12 +16,12 @@ from hummingbot.core.web_assistant.ws_assistant import WSAssistant
 from hummingbot.logger import HummingbotLogger
 
 if TYPE_CHECKING:
-    from hummingbot.connector.derivative.binance_perpetual.binance_perpetual_derivative import (
-        BinancePerpetualDerivative,
+    from hummingbot.connector.derivative.weex_perpetual.weex_perpetual_derivative import (
+        WeexPerpetualDerivative,
     )
 
 
-class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
+class WeexPerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
     _bpobds_logger: Optional[HummingbotLogger] = None
     _trading_pair_symbol_map: Dict[str, Mapping[str, str]] = {}
     _mapping_initialization_lock = asyncio.Lock()
@@ -29,7 +29,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
     def __init__(
             self,
             trading_pairs: List[str],
-            connector: 'BinancePerpetualDerivative',
+            connector: 'WeexPerpetualDerivative',
             api_factory: WebAssistantsFactory,
             domain: str = CONSTANTS.DOMAIN
     ):
@@ -92,6 +92,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
         return ws
 
     async def _subscribe_channels(self, ws: WSAssistant):
+        # TODO 这里要修改
         """
         Subscribes to the trade events and diff orders events through the provided websocket connection.
         :param ws: the websocket assistant used to connect to the exchange
@@ -122,6 +123,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
             raise
 
     def _channel_originating_message(self, event_message: Dict[str, Any]) -> str:
+        # TODO 这里要修改
         channel = ""
         if "result" not in event_message:
             stream_name = event_message.get("stream")
@@ -134,6 +136,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
         return channel
 
     async def _parse_order_book_diff_message(self, raw_message: Dict[str, Any], message_queue: asyncio.Queue):
+        # TODO 这里要修改
         timestamp: float = time.time()
         raw_message["data"]["s"] = await self._connector.trading_pair_associated_to_exchange_symbol(
             raw_message["data"]["s"])
@@ -147,6 +150,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
         message_queue.put_nowait(order_book_message)
 
     async def _parse_trade_message(self, raw_message: Dict[str, Any], message_queue: asyncio.Queue):
+        # TODO 这里要修改
         raw_message["data"]["s"] = await self._connector.trading_pair_associated_to_exchange_symbol(
             raw_message["data"]["s"])
         data = raw_message["data"]
@@ -162,6 +166,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
         message_queue.put_nowait(trade_message)
 
     async def listen_for_order_book_snapshots(self, ev_loop: asyncio.BaseEventLoop, output: asyncio.Queue):
+        # TODO 这里要修改
         while True:
             try:
                 for trading_pair in self._trading_pairs:
@@ -179,6 +184,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
                 await self._sleep(5.0)
 
     async def _parse_funding_info_message(self, raw_message: Dict[str, Any], message_queue: asyncio.Queue):
+        # TODO 这里要修改
 
         data: Dict[str, Any] = raw_message["data"]
         trading_pair = await self._connector.trading_pair_associated_to_exchange_symbol(data["s"])
@@ -196,6 +202,7 @@ class BinancePerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
         message_queue.put_nowait(funding_info)
 
     async def _request_complete_funding_info(self, trading_pair: str):
+        # TODO 这里要修改
         ex_trading_pair = await self._connector.exchange_symbol_associated_to_pair(trading_pair=trading_pair)
         data = await self._connector._api_get(
             path_url=CONSTANTS.MARK_PRICE_URL,

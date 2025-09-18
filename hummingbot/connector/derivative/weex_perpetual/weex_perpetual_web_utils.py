@@ -10,7 +10,7 @@ from hummingbot.core.web_assistant.rest_pre_processors import RESTPreProcessorBa
 from hummingbot.core.web_assistant.web_assistants_factory import WebAssistantsFactory
 
 
-class BinancePerpetualRESTPreProcessor(RESTPreProcessorBase):
+class WeexPerpetualRESTPreProcessor(RESTPreProcessorBase):
 
     async def pre_process(self, request: RESTRequest) -> RESTRequest:
         if request.headers is None:
@@ -21,18 +21,18 @@ class BinancePerpetualRESTPreProcessor(RESTPreProcessorBase):
         return request
 
 
-def public_rest_url(path_url: str, domain: str = "binance_perpetual"):
-    base_url = CONSTANTS.PERPETUAL_BASE_URL if domain == "binance_perpetual" else CONSTANTS.TESTNET_BASE_URL
+def public_rest_url(path_url: str, domain: str = "weex_perpetual"):
+    base_url = CONSTANTS.PERPETUAL_BASE_URL if domain == "weex_perpetual" else CONSTANTS.TESTNET_BASE_URL
     return base_url + path_url
 
 
-def private_rest_url(path_url: str, domain: str = "binance_perpetual"):
-    base_url = CONSTANTS.PERPETUAL_BASE_URL if domain == "binance_perpetual" else CONSTANTS.TESTNET_BASE_URL
+def private_rest_url(path_url: str, domain: str = "weex_perpetual"):
+    base_url = CONSTANTS.PERPETUAL_BASE_URL if domain == "weex_perpetual" else CONSTANTS.TESTNET_BASE_URL
     return base_url + path_url
 
 
-def wss_url(endpoint: str, domain: str = "binance_perpetual"):
-    base_ws_url = CONSTANTS.PERPETUAL_WS_URL if domain == "binance_perpetual" else CONSTANTS.TESTNET_WS_URL
+def wss_url(endpoint: str, domain: str = "weex_perpetual"):
+    base_ws_url = CONSTANTS.PERPETUAL_WS_URL if domain == "weex_perpetual" else CONSTANTS.TESTNET_WS_URL
     return base_ws_url + endpoint
 
 
@@ -53,7 +53,7 @@ def build_api_factory(
         auth=auth,
         rest_pre_processors=[
             TimeSynchronizerRESTPreProcessor(synchronizer=time_synchronizer, time_provider=time_provider),
-            BinancePerpetualRESTPreProcessor(),
+            WeexPerpetualRESTPreProcessor(),
         ])
     return api_factory
 
@@ -61,7 +61,7 @@ def build_api_factory(
 def build_api_factory_without_time_synchronizer_pre_processor(throttler: AsyncThrottler) -> WebAssistantsFactory:
     api_factory = WebAssistantsFactory(
         throttler=throttler,
-        rest_pre_processors=[BinancePerpetualRESTPreProcessor()])
+        rest_pre_processors=[WeexPerpetualRESTPreProcessor()])
     return api_factory
 
 

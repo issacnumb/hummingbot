@@ -38,7 +38,7 @@ if TYPE_CHECKING:
 bpm_logger = None
 
 
-class BinancePerpetualDerivative(PerpetualDerivativePyBase):
+class WeexPerpetualDerivative(PerpetualDerivativePyBase):
     web_utils = web_utils
     SHORT_POLL_INTERVAL = 5.0
     UPDATE_ORDER_STATUS_MIN_INTERVAL = 10.0
